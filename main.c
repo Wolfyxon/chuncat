@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <glob.h>
 
 void print_help();
+bool starts_with(char* a, char* b);
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
@@ -21,6 +23,16 @@ int main(int argc, char* argv[]) {
     } else {
         printf("chuncat: Unknown command '%s', see `chuncat help` \n", command);
     }
+}
+
+bool starts_with(char* a, char *b) {
+    size_t len_a = strlen(a);
+    size_t len_b = strlen(b);
+    
+    if(len_a < len_b) 
+        return false;
+
+    return strncmp(a, b, len_b);
 }
 
 void print_help() {
