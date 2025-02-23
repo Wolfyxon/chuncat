@@ -179,7 +179,7 @@ int cmd_split(int argc, char* argv[]) {
             current_file = open_chunk(file_path, total_chunks++);
         }
         
-        if(i % chunk_size == 0) {
+        if(i % amt == 0) {
             fwrite(chunk, sizeof(char), current_chunk_len, current_file);
             fclose(current_file);
 
