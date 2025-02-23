@@ -3,26 +3,41 @@
 #include <string.h>
 #include <glob.h>
 
-void print_help();
+typedef struct {
+    int (*func)(int, char*[]);
+    const char* name;
+    const char* description;
+} Command;
+
+int cmd_help(int _argc, char* _argv[]);
 bool starts_with(char* a, char* b);
+
+const Command COMMANDS[] = {
+    {
+        .func = cmd_help,
+        .name = "help",
+        .description = "Shows help"
+    }
+};
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
-        print_help();
+        cmd_help(argc, argv);
         return 1;
     }
 
-    char* command = argv[1];
+    char* command_name = argv[1];
 
-    if(strcmp(command, "help") == 0) {
-        print_help();
-    } else if(strcmp(command, "split") == 0) {
-        printf("TODO: split\n");
-    } else if(strcmp(command, "join") == 0) {
-        printf("TODO: join\n");
-    } else {
-        printf("chuncat: Unknown command '%s', see `chuncat help` \n", command);
+    for(int i = 0; i < sizeof(COMMANDS); i++) {
+        Command cmd = COMMANDS[i];
+
+        if(strcmp(cmd.name, command_name) == 0) {
+            return cmd.func(argc, argv);
+        }
     }
+
+    printf("chuncat: Unknown command '%s', see `chuncat help` \n", command_name);
+    return 1;
 }
 
 bool starts_with(char* a, char *b) {
@@ -35,6 +50,6 @@ bool starts_with(char* a, char *b) {
     return strncmp(a, b, len_b);
 }
 
-void print_help() {
+int cmd_help(int _argc, char* _argv[]) {
     printf("Usage: chuncat <command> <files>... \n");
 }
