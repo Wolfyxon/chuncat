@@ -13,13 +13,21 @@ typedef struct {
 
 int cmd_help(int _argc, char* _argv[]);
 int cmd_split(int argc, char* argv[]);
+int cmd_version(int _argc, char* _argv[]);
 bool starts_with(char* a, char* b);
+
+const char* VERSION = "1.0";
 
 const Command COMMANDS[] = {
     {
         .func = cmd_help,
         .name = "help",
         .description = "Shows help"
+    },
+    {
+        .func = cmd_version,
+        .name = "version",
+        .description = "Shows the tool's version"
     },
     {
         .func = cmd_split,
@@ -88,6 +96,10 @@ int cmd_help(int _argc, char* _argv[]) {
 
         printf("    %s   %s \n", name_field, cmd.description);
     }
+}
+
+int cmd_version(int _argc, char* _argv[]) {
+    printf("chuncat v. %s", VERSION);
 }
 
 int cmd_split(int argc, char* argv[]) {
