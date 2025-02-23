@@ -66,6 +66,20 @@ bool starts_with(char* a, char *b) {
     return strncmp(a, b, len_b);
 }
 
+FILE* open_chunk(char* base_path, int i) {
+    char path[FILENAME_MAX];
+    sprintf(path, "%s.%i", base_path, i);
+
+    FILE* file = fopen(path, "wb");
+
+    if(file == NULL) {
+        fprintf(stderr, "chuncat: Failed to open '%s' \n", path);
+        exit(1);
+    }
+
+    return file;
+}
+
 int cmd_help(int _argc, char* _argv[]) {
     printf("Usage: chuncat <command> <files>... \n\n");
     printf("Commands: \n");
@@ -135,4 +149,51 @@ int cmd_split(int argc, char* argv[]) {
         // TODO: Describe the error
         fprintf(stderr, "chuncat: Failed to open '%s' \n", file_path);
     }
+
+    fseek(input_file, 0, SEEK_END);
+    int file_len = ftell(input_file);
+    fseek(input_file, 0, SEEK_SET);
+
+    if(file_len == 0) {
+        fprintf(stderr, "File cannot be empty \n");
+        return 1;
+    }
+
+    if(strcmp(mode, "count") == 0) {
+        fprintf(stderr, "chuncat: 'count' not implemented. \n");
+        return 1;
+    }
+
+    int chunk_size = file_len / amt;
+    char* chunk = malloc(chunk_size);
+    int total_chunks = 0;
+    int current_chunk_len = 0;
+
+    FILE* current_file;
+    
+    for(int i = 0; i < file_len; i++) {
+        char byte = fgetc(input_file);
+        chunk[current_chunk_len++] = byte;
+
+        if(i == 0) {
+            current_file = open_chunk(file_path, total_chunks++);
+        }
+        
+        if(i % chunk_size == 0) {
+            fwrite(chunk, sizeof(char), current_chunk_len, current_file);
+            fclose(current_file);
+
+            current_file = open_chunk(file_path, total_chunks++);
+            
+            chunk = malloc(chunk_size);
+            current_chunk_len = 0;
+        }
+    }
+
+    if(current_chunk_len != 0) {
+        fwrite(chunk, sizeof(char), current_chunk_len, current_file);
+        fclose(current_file);
+    }
+    
+    fclose(input_file);
 }
