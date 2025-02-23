@@ -9,7 +9,7 @@ typedef struct {
     int (*func)(int, char*[]);
     const char* name;
     const char* description;
-} Command;
+} command_t;
 
 int cmd_help(int _argc, char* _argv[]);
 int cmd_split(int argc, char* argv[]);
@@ -18,7 +18,7 @@ bool starts_with(char* a, char* b);
 
 const char* VERSION = "1.0";
 
-const Command COMMANDS[] = {
+const command_t COMMANDS[] = {
     {
         .func = cmd_help,
         .name = "help",
@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
 
     char* command_name = argv[1];
 
-    for(int i = 0; i < sizeof(COMMANDS) / sizeof(Command); i++) {
-        Command cmd = COMMANDS[i];
+    for(int i = 0; i < sizeof(COMMANDS) / sizeof(command_t); i++) {
+        command_t cmd = COMMANDS[i];
 
         if(strcmp(cmd.name, command_name) == 0) {
             return cmd.func(argc, argv);
@@ -72,10 +72,10 @@ int cmd_help(int _argc, char* _argv[]) {
 
     int longest = 0;
 
-    int commands_len = sizeof(COMMANDS) / sizeof(Command);
+    int commands_len = sizeof(COMMANDS) / sizeof(command_t);
 
     for(int i = 0; i < commands_len; i++) {
-        Command cmd = COMMANDS[i];
+        command_t cmd = COMMANDS[i];
         int name_len = strlen(cmd.name);
 
         if(name_len > longest) {
@@ -84,7 +84,7 @@ int cmd_help(int _argc, char* _argv[]) {
     }
 
     for(int i = 0; i < commands_len; i++) {
-        Command cmd = COMMANDS[i];
+        command_t cmd = COMMANDS[i];
         int name_len = strlen(cmd.name);
 
         char* name_field = malloc(longest);
