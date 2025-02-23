@@ -118,7 +118,7 @@ int cmd_version(int _argc, char* _argv[]) {
 
 int cmd_split(int argc, char* argv[]) {
     if(argc < 5) {
-        fprintf(stderr, "Usage: chuncat split <mode> <amount | bytes> <file> \n");
+        fprintf(stderr, "Usage: chuncat split <mode> <file count | byte size> <file> \n");
         return 1;
     }
     
