@@ -136,9 +136,9 @@ int cmd_split(int argc, char* argv[]) {
         return 1;
     }
 
-    int amt = atoi(str_amt);
+    int count_or_bytes = atoi(str_amt);
 
-    if(amt <= 0) {
+    if(count_or_bytes <= 0) {
         fprintf(stderr, "chuncat: Number must be greater than 0 \n");
         return 1;
     }
@@ -164,7 +164,7 @@ int cmd_split(int argc, char* argv[]) {
         return 1;
     }
 
-    int chunk_size = file_len / amt;
+    int chunk_size = file_len / count_or_bytes;
     char* chunk = malloc(chunk_size);
     int total_chunks = 0;
     int current_chunk_len = 0;
@@ -179,7 +179,7 @@ int cmd_split(int argc, char* argv[]) {
             current_file = open_chunk(file_path, total_chunks++);
         }
         
-        if(i % amt == 0) {
+        if(i % count_or_bytes == 0) {
             fwrite(chunk, sizeof(char), current_chunk_len, current_file);
             fclose(current_file);
 
