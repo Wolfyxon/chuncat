@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    printf("chuncat: Unknown command '%s', see `chuncat help` \n", command_name);
+    fprintf(stderr, "chuncat: Unknown command '%s', see `chuncat help` \n", command_name);
     return 1;
 }
 
@@ -104,7 +104,7 @@ int cmd_version(int _argc, char* _argv[]) {
 
 int cmd_split(int argc, char* argv[]) {
     if(argc < 5) {
-        printf("Usage: chuncat split <mode> <amount | bytes> <file> \n");
+        fprintf(stderr, "Usage: chuncat split <mode> <amount | bytes> <file> \n");
         return 1;
     }
     
@@ -113,7 +113,7 @@ int cmd_split(int argc, char* argv[]) {
     char* file_path = argv[4];
 
     if(strcmp(mode, "count") != 0 && strcmp(mode, "bytes")) {
-        printf("chuncat: '%s' is not a valid mode. Use 'count' or 'bytes'. \n", mode);
+        fprintf(stderr, "chuncat: '%s' is not a valid mode. Use 'count' or 'bytes'. \n", mode);
         return 1;
     }
 
@@ -125,7 +125,7 @@ int cmd_split(int argc, char* argv[]) {
     int amt = atoi(str_amt);
 
     if(amt <= 0) {
-        printf("chuncat: Number must be greater than 0 \n");
+        fprintf(stderr, "chuncat: Number must be greater than 0 \n");
         return 1;
     }
 
@@ -133,6 +133,6 @@ int cmd_split(int argc, char* argv[]) {
 
     if(input_file == NULL) {
         // TODO: Describe the error
-        printf("chuncat: Failed to open '%s' \n", file_path);
+        fprintf(stderr, "chuncat: Failed to open '%s' \n", file_path);
     }
 }
