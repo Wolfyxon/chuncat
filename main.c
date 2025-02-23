@@ -59,7 +59,35 @@ bool starts_with(char* a, char *b) {
 }
 
 int cmd_help(int _argc, char* _argv[]) {
-    printf("Usage: chuncat <command> <files>... \n");
+    printf("Usage: chuncat <command> <files>... \n\n");
+    printf("Commands: \n");
+
+    int longest = 0;
+
+    int commands_len = sizeof(COMMANDS) / sizeof(Command);
+
+    for(int i = 0; i < commands_len; i++) {
+        Command cmd = COMMANDS[i];
+        int name_len = strlen(cmd.name);
+
+        if(name_len > longest) {
+            longest = name_len;
+        }
+    }
+
+    for(int i = 0; i < commands_len; i++) {
+        Command cmd = COMMANDS[i];
+        int name_len = strlen(cmd.name);
+
+        char* name_field = malloc(longest);
+        strcpy(name_field, cmd.name);
+
+        for(int ii = name_len; ii < longest; ii++) {
+            name_field[ii] = *" ";
+        }
+
+        printf("    %s   %s \n", name_field, cmd.description);
+    }
 }
 
 int cmd_split(int argc, char* argv[]) {
