@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 
     char* command_name = argv[1];
 
-    for(int i = 0; i < sizeof(COMMANDS); i++) {
+    for(int i = 0; i < sizeof(COMMANDS) / sizeof(Command); i++) {
         Command cmd = COMMANDS[i];
 
         if(strcmp(cmd.name, command_name) == 0) {
