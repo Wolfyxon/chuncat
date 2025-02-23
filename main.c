@@ -14,6 +14,10 @@ int main(int argc, char* argv[]) {
 
     if(strcmp(command, "help") == 0) {
         print_help();
+    } else if(strcmp(command, "split") == 0) {
+        printf("TODO: split\n");
+    } else if(strcmp(command, "join") == 0) {
+        printf("TODO: join\n");
     } else {
         printf("chuncat: Unknown command '%s', see `chuncat help` \n", command);
     }
