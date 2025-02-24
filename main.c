@@ -32,7 +32,7 @@ const command_t COMMANDS[] = {
     {
         .func = cmd_split,
         .name = "split",
-        .description = "Splits files"
+        .description = "Splits files into a desired amount or per an amount of bytes"
     }
 };
 
