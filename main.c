@@ -159,11 +159,6 @@ int cmd_split(int argc, char* argv[]) {
         return 1;
     }
 
-    if(strcmp(mode, "count") == 0) {
-        fprintf(stderr, "chuncat: 'count' not implemented. \n");
-        return 1;
-    }
-
     int chunk_size = file_len / count_or_bytes;
     char* chunk = malloc(chunk_size);
     int total_chunks = 0;
@@ -171,6 +166,10 @@ int cmd_split(int argc, char* argv[]) {
 
     FILE* current_file;
     
+    if(strcmp(mode, "count") == 0) {
+        count_or_bytes = chunk_size;
+    }
+
     for(int i = 0; i < file_len; i++) {
         char byte = fgetc(input_file);
         chunk[current_chunk_len++] = byte;
