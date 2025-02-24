@@ -187,7 +187,6 @@ int cmd_split(int argc, char* argv[]) {
         }
         
         if(i % count_or_bytes == 0 && i != 0) {
-            printf("write %i \n", i);
             fwrite(chunk, sizeof(char), current_chunk_len, current_file);
             fclose(current_file);
 
