@@ -123,7 +123,7 @@ int cmd_help(int _argc, char* _argv[]) {
 }
 
 int cmd_version(int _argc, char* _argv[]) {
-    printf("chuncat v. %s", VERSION);
+    printf("chuncat v. %s \n", VERSION);
 }
 
 int cmd_split(int argc, char* argv[]) {
