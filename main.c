@@ -11,10 +11,10 @@ typedef struct {
     const char* description;
 } command_t;
 
+bool starts_with(char* a, char* b);
 int cmd_help(int _argc, char* _argv[]);
 int cmd_split(int argc, char* argv[]);
 int cmd_version(int _argc, char* _argv[]);
-bool starts_with(char* a, char* b);
 
 const char* VERSION = "1.0";
 
