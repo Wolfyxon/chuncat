@@ -66,6 +66,16 @@ bool starts_with(char* a, char *b) {
     return strncmp(a, b, len_b);
 }
 
+long flen(FILE* file) {
+    long current_pos = ftell(file);
+
+    fseek(file, 0, SEEK_END);
+    int len = ftell(file);
+    fseek(file, current_pos, SEEK_SET);
+
+    return len;
+}
+
 FILE* open_chunk(char* base_path, int i) {
     char path[FILENAME_MAX];
     sprintf(path, "%s.%i", base_path, i);
@@ -150,9 +160,7 @@ int cmd_split(int argc, char* argv[]) {
         fprintf(stderr, "chuncat: Failed to open '%s' \n", file_path);
     }
 
-    fseek(input_file, 0, SEEK_END);
-    int file_len = ftell(input_file);
-    fseek(input_file, 0, SEEK_SET);
+    int file_len = flen(input_file);
 
     if(file_len == 0) {
         fprintf(stderr, "File cannot be empty \n");
